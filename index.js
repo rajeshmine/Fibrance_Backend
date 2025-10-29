@@ -9,7 +9,7 @@ const cartRoutes = require('./routes/carts');
 const wishlistRoutes = require('./routes/wishlists');
 const paymentRoutes = require('./routes/payments');
 const inventoryRoutes = require('./routes/inventory');
-
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -37,7 +37,9 @@ app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({ error: err.message || 'Server Error' });
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;
+
+// And for local dev:
+if (require.main === module) {
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+}
